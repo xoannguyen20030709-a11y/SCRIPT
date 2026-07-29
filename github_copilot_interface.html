@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>github.com/copilot</title>
+<style>
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    background-color: #ffffff;
+    color: #1f2328;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    max-width: 480px;
+    margin: 0 auto;
+    position: relative;
+    border-left: 1px solid #e1e4e8;
+    border-right: 1px solid #e1e4e8;
+  }
+
+  /* Browser Bar / Header Sim */
+  .browser-header {
+    background: #22272e;
+    color: #adbac7;
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 14px;
+  }
+
+  .url-bar {
+    background: #2d333b;
+    border-radius: 20px;
+    padding: 6px 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+    margin: 0 10px;
+    color: #adbac7;
+    font-size: 15px;
+  }
+
+  .url-bar span {
+    color: #768390;
+  }
+
+  /* Top Navigation */
+  .app-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    background: #ffffff;
+    border-bottom: 1px solid #f0f0f0;
+  }
+
+  .header-left, .header-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .btn-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border: 1px solid #d0d7de;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #57606a;
+    cursor: pointer;
+  }
+
+  /* Main Container */
+  .main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 16px;
+    position: relative;
+  }
+
+  /* Copilot Logo */
+  .logo-container {
+    margin-top: 140px;
+    margin-bottom: 40px;
+  }
+
+  .copilot-face {
+    width: 56px;
+    height: 56px;
+    color: #24292f;
+  }
+
+  /* Input Card */
+  .input-box {
+    width: 100%;
+    border: 2px solid #0969da;
+    border-radius: 16px;
+    padding: 14px;
+    background: #ffffff;
+    box-shadow: 0 2px 8px rgba(9, 105, 218, 0.08);
+  }
+
+  .input-field {
+    width: 100%;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    color: #1f2328;
+    background: transparent;
+    resize: none;
+    height: 48px;
+    line-height: 1.4;
+  }
+
+  .input-field::placeholder {
+    color: #57606a;
+    font-size: 16px;
+  }
+
+  .input-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 8px;
+  }
+
+  .actions-left, .actions-right {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .mini-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 34px;
+    padding: 0 8px;
+    border: 1px solid #d0d7de;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #57606a;
+    font-size: 13px;
+    cursor: pointer;
+  }
+
+  .mini-btn.icon-only {
+    width: 34px;
+    padding: 0;
+  }
+
+  .dropdown-btn {
+    padding: 0 10px;
+    gap: 4px;
+    font-weight: 500;
+    color: #24292f;
+  }
+
+  .send-btn {
+    border: none;
+    background: transparent;
+    color: #0969da;
+    cursor: pointer;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+  }
+
+  /* Action Buttons Grid */
+  .quick-buttons {
+    width: 100%;
+    margin-top: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .button-row {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .chip-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    border: 1px solid #d0d7de;
+    border-radius: 12px;
+    background: #ffffff;
+    font-size: 14px;
+    font-weight: 500;
+    color: #24292f;
+    cursor: pointer;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+  }
+
+  .chip-btn svg.arrow {
+    margin-left: 2px;
+  }
+
+  /* Footer Disclaimer */
+  .footer {
+    margin-top: auto;
+    padding: 24px 16px 32px;
+    text-align: center;
+    font-size: 13px;
+    color: #57606a;
+  }
+
+  .footer a {
+    color: #1f2328;
+    text-decoration: underline;
+    font-weight: 500;
+  }
+</style>
+</head>
+<body>
+
+  <!-- App Header -->
+  <header class="app-header">
+    <div class="header-left">
+      <button class="btn-icon">
+        <svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor"><path d="M1 2.75A.75.75 0 0 1 1.75 2h12.5a.75.75 0 0 1 0 1.5H1.75A.75.75 0 0 1 1 2.75Zm0 5A.75.75 0 0 1 1.75 7h12.5a.75.75 0 0 1 0 1.5H1.75A.75.75 0 0 1 1 7.75Zm0 5a.75.75 0 0 1 .75-.75h12.5a.75.75 0 0 1 0 1.5H1.75a.75.75 0 0 1-.75-.75Z"></path></svg>
+      </button>
+      <button class="btn-icon">
+        <svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor"><path d="M11.013 1.427a1.75 1.75 0 0 1 2.474 0l1.086 1.086a1.75 1.75 0 0 1 0 2.474l-8.61 8.61c-.21.21-.47.364-.756.445l-3.251.93a.75.75 0 0 1-.927-.928l.932-3.25a1.75 1.75 0 0 1 .443-.757l8.609-8.61ZM12.427 2.487a.25.25 0 0 0-.354 0L11 3.56l1.44 1.44 1.073-1.073a.25.25 0 0 0 0-.354l-1.086-1.086ZM11.379 6.06 9.94 4.62 2.958 11.6a.25.25 0 0 0-.063.108l-.552 1.93 1.93-.552a.25.25 0 0 0 .108-.063l6.998-6.963Z"></path></svg>
+      </button>
+    </div>
+    <div class="header-right">
+      <button class="btn-icon">
+        <svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor"><path d="M8 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3ZM1.5 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3ZM14.5 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z"></path></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main View -->
+  <main class="main-content">
+    
+    <!-- Copilot Logo Icon -->
+    <div class="logo-container">
+      <svg class="copilot-face" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 2C9.24 2 7 4.24 7 7v1H5c-1.1 0-2 .9-2 2v5c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-5c0-1.1-.9-2-2-2h-2V7c0-2.76-2.24-5-5-5zm-3 5c0-1.66 1.34-3 3-3s3 1.34 3 3v1H9V7zm-1 6a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3zm8 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3z"/>
+      </svg>
+    </div>
+
+    <!-- Input Card Box -->
+    <div class="input-box">
+      <textarea class="input-field" placeholder="Ask anything or type @ to add context" autofocus></textarea>
+      
+      <div class="input-actions">
+        <div class="actions-left">
+          <button class="mini-btn icon-only">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M1 2.75C1 1.784 1.784 1 2.75 1h10.5c.966 0 1.75.784 1.75 1.75v7.5A1.75 1.75 0 0 1 13.25 12H9.06l-2.573 2.573A1.458 1.458 0 0 1 4 13.543V12H2.75A1.75 1.75 0 0 1 1 10.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.75.75 0 0 1 .53-.22h5.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path></svg>
+          </button>
+          <button class="mini-btn icon-only">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M3 2.75C3 1.784 3.784 1 4.75 1h6.5c.966 0 1.75.784 1.75 1.75v11.5a.75.75 0 0 1-1.227.579L8 12.21l-3.773 2.619A.75.75 0 0 1 3 14.25ZM4.75 2.5a.25.25 0 0 0-.25.25v10.113l3.023-2.099a.75.75 0 0 1 .854 0l3.023 2.1V2.75a.25.25 0 0 0-.25-.25Z"></path></svg>
+          </button>
+          <button class="mini-btn icon-only">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M7.75 2a.75.75 0 0 1 .75.75V7h4.25a.75.75 0 0 1 0 1.5H8.5v4.25a.75.75 0 0 1-1.5 0V8.5H2.75a.75.75 0 0 1 0-1.5H7V2.75A.75.75 0 0 1 7.75 2Z"></path></svg>
+          </button>
+        </div>
+
+        <div class="actions-right">
+          <button class="mini-btn dropdown-btn">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 2a4 4 0 0 0-4 4v1H3a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1V6a4 4 0 0 0-4-4z"/></svg>
+            <span>Auto</span>
+            <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor"><path d="M4.427 6.427l3.396 3.396a.25.25 0 00.354 0l3.396-3.396A.25.25 0 0011.396 6H4.604a.25.25 0 00-.177.427z"/></svg>
+          </button>
+          <button class="mini-btn icon-only">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0Zm7-3.25v3.25h3.25a.75.75 0 0 1 0 1.5H7.75A.75.75 0 0 1 7 8.75V4.75a.75.75 0 0 1 1.5 0Z"></path></svg>
+          </button>
+          <button class="send-btn">
+            <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor"><path d="M.989 8 .064 2.68a1.342 1.342 0 0 1 1.85-1.462l13.402 6.124a1.341 1.341 0 0 1 0 2.434L1.914 15.9a1.342 1.342 0 0 1-1.85-1.46L.989 9H7.25a.75.75 0 0 0 0-1.5H.989Z"></path></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Action Chips -->
+    <div class="quick-buttons">
+      <div class="button-row">
+        <button class="chip-btn">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M1.75 5h12.5a.75.75 0 0 1 0 1.5H1.75a.75.75 0 0 1 0-1.5zm0 4.5h12.5a.75.75 0 0 1 0 1.5H1.75a.75.75 0 0 1 0-1.5z"/></svg>
+          <span>Agent</span>
+        </button>
+        <button class="chip-btn">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13zM0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8z"/></svg>
+          <span>Create issue</span>
+        </button>
+        <button class="chip-btn">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M4 1.75C4 .784 4.784 0 5.75 0h5.5c.966 0 1.75.784 1.75 1.75v12.5A1.75 1.75 0 0 1 11.25 16h-5.5A1.75 1.75 0 0 1 4 14.25zm1.75-.25a.25.25 0 0 0-.25.25v12.5c0 .138.112.25.25.25h5.5a.25.25 0 0 0 .25-.25V1.75a.25.25 0 0 0-.25-.25z"/></svg>
+          <span>Write code</span>
+          <svg class="arrow" width="12" height="12" viewBox="0 0 16 16" fill="currentColor"><path d="M4.427 6.427l3.396 3.396a.25.25 0 00.354 0l3.396-3.396A.25.25 0 0011.396 6H4.604a.25.25 0 00-.177.427z"/></svg>
+        </button>
+      </div>
+
+      <div class="button-row">
+        <button class="chip-btn">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M11.75 2.5a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5zm-3.75 12a2.25 2.25 0 1 0 0-4.5 2.25 2.25 0 0 0 0 4.5zM4.25 2.5a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5z"/></svg>
+          <span>Git</span>
+          <svg class="arrow" width="12" height="12" viewBox="0 0 16 16" fill="currentColor"><path d="M4.427 6.427l3.396 3.396a.25.25 0 00.354 0l3.396-3.396A.25.25 0 0011.396 6H4.604a.25.25 0 00-.177.427z"/></svg>
+        </button>
+        <button class="chip-btn">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M5 3.25a1.75 1.75 0 1 1 3.5 0 1.75 1.75 0 0 1-3.5 0zm0 9.5a1.75 1.75 0 1 1 3.5 0 1.75 1.75 0 0 1-3.5 0z"/></svg>
+          <span>Pull requests</span>
+          <svg class="arrow" width="12" height="12" viewBox="0 0 16 16" fill="currentColor"><path d="M4.427 6.427l3.396 3.396a.25.25 0 00.354 0l3.396-3.396A.25.25 0 0011.396 6H4.604a.25.25 0 00-.177.427z"/></svg>
+        </button>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <div class="footer">
+    <a href="#">Copilot</a> uses AI. Check for mistakes.
+  </div>
+
+</body>
+</html>
